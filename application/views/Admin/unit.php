@@ -1,29 +1,11 @@
 <?php
 error_reporting('0');
-function tgl_indo($date)
-{
-   $bulan = array(
-      1 => 'Januari',
-      'Februari',
-      'Maret',
-      'April',
-      'Mei',
-      'Juni',
-      'Juli',
-      'Agustus',
-      'September',
-      'Oktober',
-      'November',
-      'Desember'
-   );
-   $pecahkan = explode('-', $date);
-   return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
-}
 ?>
 <div class="container-fluid">
    <div class="page-head">
       <h4 class="mt-2 mb-2"><?= $label; ?></h4>
    </div>
+   <?= $this->session->flashdata('message'); ?>
 
    <?php if ($this->session->userdata('level') == 'Admin') { ?>
       <div class="row">
@@ -52,8 +34,8 @@ function tgl_indo($date)
                                  <td><?= $unit->unit; ?></td>
                                  <td><?= $unit->keterangan; ?></td>
                                  <td align="center">
-                                    <a href="" class="btn btn-primary" title="atur"><i class="fa fa-fw fa-edit (alias)"></i></a>
-                                    <a href="" class="btn btn-danger" title="hapus"><i class="fa fa-fw fa-trash-o"></i></a>
+                                    <a href="<?= base_url('admin/edit_unit/'); ?><?= $unit->id; ?>" class="btn btn-primary" title="atur"><i class="fa fa-fw fa-edit (alias)"></i></a>
+                                    <a href="<?= base_url('admin/hapus_unit/') ?><?= $unit->id; ?>" class="btn btn-danger" title="hapus" onclick="return confirm('Anda yakin menghapus?')"><i class=" fa fa-fw fa-trash-o"></i></a>
                                  </td>
                               </tr>
                            <?php $no++;
@@ -110,11 +92,11 @@ function tgl_indo($date)
             <div class="modal-body">
                <div class="form-group">
                   <label for="unit">Nama Unit</label>
-                  <input type="text" class="form-control" id="unit" placeholder="Masukan Unit">
+                  <input type="text" class="form-control" id="unit" placeholder="Masukan Unit" name="unit">
                </div>
                <div class="form-group">
                   <label for="ketunit">Keterangan</label>
-                  <input type="text" class="form-control" id="ketunit" placeholder="Masukan Keterangan">
+                  <input type="text" class="form-control" id="ketunit" name="ketunit" placeholder="Masukan Keterangan">
                </div>
             </div>
             <div class="modal-footer">
