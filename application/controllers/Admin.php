@@ -262,4 +262,114 @@ class Admin extends CI_Controller
             redirect('admin');
         }
     }
+
+    public function golongan()
+    {
+        if ($this->session->userdata('level') == 'Admin') {
+            $data['title'] = 'SIMPEG - PIJAY';
+            $data['brand'] = 'SIMPEG - PIJAY';
+            $data['label'] = 'Kelola Golongan';
+
+            $golongan = $this->my_model->tampil('golongan');
+            $data['golonganlist'] = $golongan->result();
+
+            $this->load->view('Admin/templateadmin/header', $data);
+            $this->load->view('Admin/templateadmin/sidebar', $data);
+            $this->load->view('Admin/templateadmin/navbar', $data);
+            $this->load->view('Admin/golongan', $data);
+            $this->load->view('Admin/templateadmin/footer', $data);
+        } else {
+            $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('admin');
+        }
+    }
+
+    public function addgol()
+    {
+        if ($this->session->userdata('level') == 'Admin') {
+            $golongan = trim($this->security->xss_clean($this->input->post('golongan')));
+            $ketgol = trim($this->security->xss_clean($this->input->post('ketgol')));
+
+            $addgol = ['nm_golongan' => $golongan, 'keterangan' => $ketgol];
+            $golpush = $this->my_model->tambahdata('golongan', $addgol);
+            if ($golpush) {
+                $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil disimpan!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+                redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal disimpan<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+        } else {
+            $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('admin');
+        }
+    }
+
+    public function hapus_gol($id)
+    {
+        if ($this->session->userdata('level') == 'Admin') {
+            $where = array('id' => $id);
+            if ($this->my_model->hapus("golongan", $where)) {
+                $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil dihapus!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+         </div>");
+                redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal dihapus<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+        } else {
+            $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('admin');
+        }
+    }
+
+    public function edit_gol($id)
+    {
+        if ($this->session->userdata('level') == 'Admin') {
+            $data['title'] = 'SIMPEG - PIJAY';
+            $data['brand'] = 'SIMPEG - PIJAY';
+            $data['label'] = 'Edit Golongan';
+
+            $where = array('id' => $id);
+            $editgol = $this->my_model->cek_data("golongan", $where);
+            $data['datagol'] = $editgol->result();
+
+            $this->load->view('Admin/templateadmin/header', $data);
+            $this->load->view('Admin/templateadmin/sidebar', $data);
+            $this->load->view('Admin/templateadmin/navbar', $data);
+            $this->load->view('Admin/vegol', $data);
+            $this->load->view('Admin/templateadmin/footer', $data);
+        } else {
+            $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('admin');
+        }
+    }
+
+    public function updategol()
+    {
+        if ($this->session->userdata('level') == 'Admin') {
+            $data['title'] = 'SIMPEG - PIJAY';
+            $data['brand'] = 'SIMPEG - PIJAY';
+            $data['label'] = 'Update Golongan';
+
+            $id = trim($this->security->xss_clean($this->input->post('id')));
+            $golongan = trim($this->security->xss_clean($this->input->post('golongan')));
+            $ketgolongan = trim($this->security->xss_clean($this->input->post('ketgolongan')));
+
+            $whereID = array('id' => $id);
+            $data = array('nm_golongan' => $golongan, 'keterangan' => $ketgolongan);
+            $uppeker = $this->my_model->update("golongan", $whereID, $data);
+            if ($uppeker) {
+                $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil diupdate!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+         </div>");
+                redirect('Admin/golongan');
+            } else {
+                $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal diupdate<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+                redirect('Admin/golongan');
+            }
+        } else {
+            $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('admin');
+        }
+    }
 }

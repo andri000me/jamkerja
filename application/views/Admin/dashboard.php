@@ -151,12 +151,6 @@ function tgl_indo($date)
 </div>
 <!--end container-->
 
-<!--footer section start-->
-<footer class="footer">
-    <?= date('Y') ?> &copy; Simpeg UUI.
-</footer>
-<!--footer section end-->
-
 
 <!-- Right Slidebar start -->
 <div class="sb-slidebar sb-right sb-style-overlay">
@@ -436,5 +430,10 @@ function tgl_indo($date)
         </div>
     </div>
 </div>
+
+<!--footer section start-->
+<footer class="footer">
+    <?= date('Y') ?> &copy; Simpeg-Pijay UUI.
+</footer>
 <!--end Right Slidebar-->
 </div>
