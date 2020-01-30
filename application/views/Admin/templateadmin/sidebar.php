@@ -29,7 +29,7 @@
                 <li class="menu-list"><a href=""><i class="mdi mdi-buffer"></i> <span>Kelola Komponen</span></a>
                     <ul class="child-list">
                         <li><a href="<?= base_url('admin/unit'); ?>"> Kelola Unit</a></li>
-                        <li><a href="ui-cards.html"> Kelola Jabatan</a></li>
+                        <li><a href="<?= base_url('admin/jabatan'); ?>"> Kelola Jabatan</a></li>
                         <li><a href="ui-tabs.html"> Kelola Golongan</a></li>
                     </ul>
                 </li>
