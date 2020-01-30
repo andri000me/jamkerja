@@ -25,10 +25,19 @@ class Admin extends CI_Controller
         $data['brand'] = 'SIMPEG - PIJAY';
         $data['label'] = 'Dashboard';
 
-        $pegawai = $this->my_model->tampil('pegawai');
+        $this->db->join('unit b', 'a.id_unit = b.id');
+        $this->db->join('golongan c', 'a.id_gol = c.id');
+        $this->db->join('jabatan d', 'a.id_jabatan = d.id');
+        $pegawai = $this->my_model->tampil('pegawai a');
+
         $data['pegawai'] = $pegawai->num_rows();
         $data['pegawailist'] = $pegawai->result();
 
+        $unit = $this->my_model->tampil('unit');
+        $data['unit'] = $unit->num_rows();
+
+        $golongan = $this->my_model->tampil('golongan');
+        $data['golongan'] = $golongan->num_rows();
 
         $this->load->view('Admin/templateadmin/header', $data);
         $this->load->view('Admin/templateadmin/sidebar', $data);
@@ -43,6 +52,7 @@ class Admin extends CI_Controller
             $data['title'] = 'SIMPEG - PIJAY';
             $data['brand'] = 'SIMPEG - PIJAY';
             $data['label'] = 'Kelola Unit';
+
 
             $pegawai = $this->my_model->tampil('unit');
             $data['unitlist'] = $pegawai->result();

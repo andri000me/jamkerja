@@ -35,7 +35,7 @@
                 </li>
                 <li class="menu-list"><a href=""><i class="mdi mdi-account"></i> <span>Kelola Data</span></a>
                     <ul class="child-list">
-                        <li><a href="ui-buttons.html"> Pegawai </a></li>
+                        <li><a href="<?= base_url('admindua/pegawai'); ?>"> Pegawai </a></li>
                         <li><a href="ui-cards.html"> Beban Kerja </a></li>
                         <li><a href="ui-tabs.html"> Tugas </a></li>
                     </ul>
