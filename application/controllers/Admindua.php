@@ -174,4 +174,52 @@ class Admindua extends CI_Controller
          redirect('admin');
       }
    }
+
+   public function vepass($id)
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Ubah Password';
+
+         $whereid = array('id' => $id);
+         $edipeg = $this->my_model->cek_data("pegawai", $whereid);
+         $data['datapeg'] = $edipeg->result();
+
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/ubahpassword', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function updpass()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $id = trim($this->security->xss_clean($this->input->post('id')));
+         $pass = trim($this->security->xss_clean($this->input->post('password')));
+
+         $password = password_hash($pass, PASSWORD_DEFAULT);
+
+         $whereID = array('id' => $id);
+         $updpaspeg = ['password' => $password];
+
+         $uppaspeg = $this->my_model->update("pegawai", $whereID, $updpaspeg);
+         if ($uppaspeg) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil diupdate!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+         </div>");
+            redirect('Admindua/pegawai');
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal diupdate<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('Admindua/pegawai');
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
 }

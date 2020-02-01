@@ -29,7 +29,7 @@
                               <input type="password" class="form-control" name="password" value="#####" disabled>
                            </div>
                            <div class="col-md-2">
-                              <a href="" class="badge bg-danger m-1">Ubah Password ?</a>
+                              <a href="<?= base_url('admindua/vepass/'); ?><?= $peg->id; ?>" class="badge bg-danger m-1">Ubah Password ?</a>
                            </div>
                         </div>
                         <div class="form-group row">
