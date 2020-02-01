@@ -222,4 +222,30 @@ class Admindua extends CI_Controller
          redirect('admin');
       }
    }
+
+   public function detail_pegawai($id)
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Edit Pegawai';
+
+         $whereid = array('a.id' => $id);
+         // $this->db->select('a.id,a.nip,a.nama,a.tempat_lahir,a.tgl_lahir,a.alamat,a.no_telp,a.id_gol,a.id_unit,a.id_jabatan,a.level, b.unit, c.nm_golongan,d.jabatan');
+         $this->db->join('unit b', 'a.id_unit = b.id');
+         $this->db->join('golongan c', 'a.id_gol = c.id');
+         $this->db->join('jabatan d', 'a.id_jabatan = d.id');
+         $detailpeg = $this->my_model->cek_data("pegawai a", $whereid);
+         $data['detailpeg'] = $detailpeg->result();
+
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/detail_pegawai', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
 }

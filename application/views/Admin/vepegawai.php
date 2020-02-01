@@ -125,7 +125,9 @@
                               <?php endif; ?>
                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <hr>
+                        <a href="<?= base_url('admindua/pegawai') ?>" class="btn btn-warning"> Batal </a>
+                        <button type="submit" class="btn btn-primary float-sm-right">Submit</button>
                      </form>
                   <?php endforeach; ?>
                </div>

@@ -36,8 +36,8 @@
                 <li class="menu-list"><a href=""><i class="mdi mdi-account"></i> <span>Kelola Data</span></a>
                     <ul class="child-list">
                         <li><a href="<?= base_url('admindua/pegawai'); ?>"> Pegawai </a></li>
-                        <li><a href="ui-cards.html"> Beban Kerja </a></li>
-                        <li><a href="ui-tabs.html"> Tugas </a></li>
+                        <li><a href="<?= base_url('admindua/pegawai'); ?>"> Beban Kerja </a></li>
+                        <li><a href="<?= base_url('admindua/pegawai'); ?>"> Tugas </a></li>
                     </ul>
                 </li>
                 <!-- end kelola simpeg -->
