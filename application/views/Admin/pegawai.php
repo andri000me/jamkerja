@@ -31,7 +31,7 @@ function tgl_indo($date)
       <div class="col-lg-12 col-sm-12">
          <div class="card m-b-30">
             <div class="card-body table-responsive">
-               <h5 class="header-title">Data Pegawai Universitasi Ubudiyah Indonesia <span class="float-right"><a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Tambah Pegawai</a></span></h5>
+               <h5 class="header-title">Data Pegawai <span class="float-right"><a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Tambah Pegawai</a></span></h5>
                <hr>
                <div class="table-odd">
                   <table id="datatable" class="table table-bordered">

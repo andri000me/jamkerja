@@ -53,7 +53,6 @@ class Admin extends CI_Controller
             $data['brand'] = 'SIMPEG - PIJAY';
             $data['label'] = 'Kelola Unit';
 
-
             $pegawai = $this->my_model->tampil('unit');
             $data['unitlist'] = $pegawai->result();
 

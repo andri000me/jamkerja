@@ -248,4 +248,130 @@ class Admindua extends CI_Controller
          redirect('admin');
       }
    }
+
+   public function tugas()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Data Tugas';
+
+         $unit = $this->my_model->tampil('unit');
+         $data['unitlist'] = $unit->result();
+
+         $this->db->select('a.id,a.no_tugas,a.nama_tugas,a.periode,a.total_wpt,b.unit');
+         $this->db->join('unit b', 'a.id_unit = b.id');
+         $tugas = $this->my_model->tampil('tgs_jab a');
+         $data['tugaslist'] = $tugas->result();
+
+
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/tugas', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function addtugas()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $notugas = trim($this->security->xss_clean($this->input->post('notugas')));
+         $nmtugas = trim($this->security->xss_clean($this->input->post('nmtugas')));
+         $unit = trim($this->security->xss_clean($this->input->post('unit')));
+         $periode = trim($this->security->xss_clean($this->input->post('periode')));
+         $wpt = trim($this->security->xss_clean($this->input->post('wpt')));
+
+         $addtugas = ['no_tugas' => $notugas, 'nama_tugas' => $nmtugas, 'id_unit' => $unit, 'periode' => $periode, 'total_wpt' => $wpt];
+         $unitpush = $this->my_model->tambahdata('tgs_jab', $addtugas);
+         if ($unitpush) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil disimpan!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal disimpan<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function hapus_tugas($id)
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $where = array('id' => $id);
+         if ($this->my_model->hapus("tgs_jab", $where)) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil dihapus!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+         </div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal dihapus<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function edit_tugas($id)
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Edit Tugas';
+
+         $whereid = array('a.id' => $id);
+         $this->db->select('a.id,a.no_tugas,a.nama_tugas,a.periode,a.total_wpt,a.id_unit,b.unit');
+         $this->db->join('unit b', 'a.id_unit = b.id');
+         $vtugas = $this->my_model->cek_data('tgs_jab a', $whereid)->result();
+         $data['vetugas'] = $vtugas;
+
+         $unit = $this->my_model->tampil('unit');
+         $data['unitlist'] = $unit->result();
+
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/vetugas', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function updatetugas()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         // var_dump($_POST);
+         $id = trim($this->security->xss_clean($this->input->post('id')));
+
+         $notugas = trim($this->security->xss_clean($this->input->post('notugas')));
+         $nmtugas = trim($this->security->xss_clean($this->input->post('nmtugas')));
+         $unit = trim($this->security->xss_clean($this->input->post('unit')));
+         $periode = trim($this->security->xss_clean($this->input->post('periode')));
+         $wpt = trim($this->security->xss_clean($this->input->post('wpt')));
+
+         $whereID = array('id' => $id);
+         $updatgs = ['no_tugas' => $notugas, 'nama_tugas' => $nmtugas, 'id_unit' => $unit, 'periode' => $periode, 'total_wpt' => $wpt];
+
+         $uppeg = $this->my_model->update("tgs_jab", $whereID, $updatgs);
+         if ($uppeg) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil diupdate!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+            </div>");
+            redirect('Admindua/tugas');
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal diupdate<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('Admindua/tugas');
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
 }

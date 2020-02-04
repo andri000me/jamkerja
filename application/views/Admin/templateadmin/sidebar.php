@@ -36,8 +36,8 @@
                 <li class="menu-list"><a href=""><i class="mdi mdi-account"></i> <span>Kelola Data</span></a>
                     <ul class="child-list">
                         <li><a href="<?= base_url('admindua/pegawai'); ?>"> Pegawai </a></li>
-                        <li><a href="<?= base_url('admindua/pegawai'); ?>"> Beban Kerja </a></li>
-                        <li><a href="<?= base_url('admindua/pegawai'); ?>"> Tugas </a></li>
+                        <li><a href="<?= base_url('admindua/tugas'); ?>"> Tugas </a></li>
+                        <!-- <li><a href="<?= base_url('admindua/pegawai'); ?>"> Beban Kerja </a></li> -->
                     </ul>
                 </li>
                 <!-- end kelola simpeg -->
@@ -45,7 +45,7 @@
                     <h3 class="navigation-title">Kelola Profil</h3>
                 </li>
                 <li class="active">
-                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Profil</span></a>
+                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Analisis</span></a>
                 </li>
                 <!-- <li class="">
                     <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-paperclip"></i> <span>Lembar Kerja</span></a>
@@ -58,7 +58,7 @@
                     <h3 class="navigation-title">Kelola Profil</h3>
                 </li>
                 <li class="active">
-                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Profil</span></a>
+                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Analisis</span></a>
                 </li>
                 <!-- <li class="">
                     <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-paperclip"></i> <span>Lembar Kerja</span></a>
