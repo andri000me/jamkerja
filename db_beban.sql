@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 06 Feb 2020 pada 09.06
+-- Waktu pembuatan: 06 Feb 2020 pada 15.47
 -- Versi server: 10.4.6-MariaDB
 -- Versi PHP: 7.3.9
 
@@ -45,10 +45,9 @@ CREATE TABLE `beban_kerja` (
 --
 
 INSERT INTO `beban_kerja` (`id`, `id_pegawai`, `tahun`, `no_tugas`, `beban_kerja`, `freq`, `bk_pertahun`, `skr`, `wpt`) VALUES
-(1, 111112, '2019', 293, 20, 2, NULL, 10, NULL),
-(2, 111112, '2020', 192213, 99, 1, NULL, 10, NULL),
+(1, 111112, '2020', 293, 120, 2, NULL, 10, NULL),
 (5, 123456789, '2020', 3127, 10, 2, NULL, 10, NULL),
-(6, 111112, '2020', 192213, 10, 1, NULL, 10, NULL);
+(7, 123128, '2019', 121376, 800, 2, NULL, 200, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,7 +91,8 @@ INSERT INTO `jabatan` (`id`, `jabatan`, `keterangan`) VALUES
 (1, 'Ka.Bagian Umum', 'Kepala Bagian Umum'),
 (3, 'Ka.Bag Keuangan', 'Kepala Bagian Keuangan'),
 (4, 'Staf Kepegawaian', 'Staff Bagian Kepegawaian'),
-(5, 'Sekretaris bupati', 'Sekretaris bupati');
+(5, 'Sekretaris bupati', 'Sekretaris bupati'),
+(6, 'Staff Keuangan', 'Keuangan');
 
 -- --------------------------------------------------------
 
@@ -122,7 +122,8 @@ CREATE TABLE `pegawai` (
 INSERT INTO `pegawai` (`id`, `nip`, `password`, `nama`, `tempat_lahir`, `tgl_lahir`, `alamat`, `no_telp`, `id_gol`, `id_unit`, `id_jabatan`, `level`) VALUES
 (1, 100000, '$2y$10$2z5PS0XqMcVh.elV/zy2lueDvheBsd4gieBW8hpKaqKQrnSjtoxEW', 'budi', 'luengputu', '2000-05-03', 'lueng putu', '098797391236', 1, 1, 1, 'Admin'),
 (2, 111112, '$2y$10$Lsircp4ZWXhFSj8IF6dBkOxoks5cj.abSrLHHQBmRopsFRCu.m8gC', 'kokos', 'siglis', '2000-01-02', 'siglis', '201798275', 4, 2, 4, 'Pegawai'),
-(8, 123456789, '$2y$10$DeR0.gCZL1lvDR6Jf4TPEOt89X9wxzjy5xFrCTsu5BH2fYK2.v2AK', 'Arman Maulana', 'Jakarta', '1980-08-10', 'Jakarta Pusat', '0981739617', 1, 1, 4, 'Pegawai');
+(8, 123456789, '$2y$10$DeR0.gCZL1lvDR6Jf4TPEOt89X9wxzjy5xFrCTsu5BH2fYK2.v2AK', 'Arman Maulana', 'Jakarta', '1980-08-10', 'Jakarta Pusat', '0981739617', 1, 1, 4, 'Pegawai'),
+(9, 123128, '$2y$10$/8HOsrKNb.3o6fIsMmXFQ.3CNSO.eI.0rc6RyRfFn.uRFkxz6.7nO', 'Gugus', 'Aceh Besar', '1990-02-07', 'Blang Bintang', '0192739817236', 1, 2, 6, 'Pegawai');
 
 -- --------------------------------------------------------
 
@@ -144,10 +145,11 @@ CREATE TABLE `tgs_jab` (
 --
 
 INSERT INTO `tgs_jab` (`id`, `no_tugas`, `nama_tugas`, `id_jab`, `periode`, `total_wpt`) VALUES
-(3, 192213, 'Fasilitas Mushola', 1, 'Pertahun', 30),
-(4, 293, 'Membuat laporan persemestera', 3, 'Persemester', 10),
-(5, 1887, 'Memasak nasi', 4, 'Perhari', 10),
-(8, 3127, 'Membuat Rekapan', 5, 'Persemester', 10);
+(3, 192213, 'Fasilitas Mushola', 1, 'Pertahun', 3000),
+(4, 293, 'Membuat laporan persemestera', 3, 'Persemester', 2400),
+(5, 1887, 'Memasak nasi', 4, 'Perhari', 100),
+(8, 3127, 'Membuat Rekapan', 5, 'Persemester', 120),
+(9, 121376, 'Atur Anggaran', 6, 'Pertahun', 2500);
 
 -- --------------------------------------------------------
 
@@ -217,7 +219,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT untuk tabel `beban_kerja`
 --
 ALTER TABLE `beban_kerja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `golongan`
@@ -229,19 +231,19 @@ ALTER TABLE `golongan`
 -- AUTO_INCREMENT untuk tabel `jabatan`
 --
 ALTER TABLE `jabatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id` int(80) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(80) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tgs_jab`
 --
 ALTER TABLE `tgs_jab`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `unit`
