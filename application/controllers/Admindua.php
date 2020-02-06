@@ -517,7 +517,7 @@ class Admindua extends CI_Controller
 
          $getjab = $this->my_model->tampil('jabatan')->result_array();
          // $getjab = $this->my_model->tampil('jabatan');
-         // $data['jablis'] = $getjab->result();
+         $data['jablis'] = $getjab;
 
          foreach ($getjab as $gj) {
             $where = ['id_jab' => $gj['id']];
@@ -529,17 +529,16 @@ class Admindua extends CI_Controller
                $getbeban = $this->my_model->cek_data('beban_kerja', $wheregs)->result_array();
                // var_dump($getbeban);
                foreach ($getbeban as $gb) {
-
                   // var_dump($gb);
                }
             }
          }
 
-         // $this->load->view('Admin/templateadmin/header', $data);
-         // $this->load->view('Admin/templateadmin/sidebar', $data);
-         // $this->load->view('Admin/templateadmin/navbar', $data);
-         // $this->load->view('Admin/analisasdm', $data);
-         // $this->load->view('Admin/templateadmin/footer', $data);
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/analisasdm', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
       } else {
          $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
          redirect('admin');
