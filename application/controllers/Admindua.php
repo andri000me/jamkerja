@@ -256,11 +256,11 @@ class Admindua extends CI_Controller
          $data['brand'] = 'SIMPEG - PIJAY';
          $data['label'] = 'Data Tugas';
 
-         $unit = $this->my_model->tampil('unit');
-         $data['unitlist'] = $unit->result();
+         $jab = $this->my_model->tampil('jabatan');
+         $data['jablist'] = $jab->result();
 
-         $this->db->select('a.id,a.no_tugas,a.nama_tugas,a.periode,a.total_wpt,b.unit');
-         $this->db->join('unit b', 'a.id_unit = b.id');
+         $this->db->select('a.id,a.no_tugas,a.nama_tugas,a.periode,a.total_wpt,b.jabatan');
+         $this->db->join('jabatan b', 'a.id_jab = b.id');
          $tugas = $this->my_model->tampil('tgs_jab a');
          $data['tugaslist'] = $tugas->result();
 
@@ -281,11 +281,11 @@ class Admindua extends CI_Controller
       if ($this->session->userdata('level') == 'Admin') {
          $notugas = trim($this->security->xss_clean($this->input->post('notugas')));
          $nmtugas = trim($this->security->xss_clean($this->input->post('nmtugas')));
-         $unit = trim($this->security->xss_clean($this->input->post('unit')));
+         $jab = trim($this->security->xss_clean($this->input->post('jab')));
          $periode = trim($this->security->xss_clean($this->input->post('periode')));
          $wpt = trim($this->security->xss_clean($this->input->post('wpt')));
 
-         $addtugas = ['no_tugas' => $notugas, 'nama_tugas' => $nmtugas, 'id_unit' => $unit, 'periode' => $periode, 'total_wpt' => $wpt];
+         $addtugas = ['no_tugas' => $notugas, 'nama_tugas' => $nmtugas, 'id_jab' => $jab, 'periode' => $periode, 'total_wpt' => $wpt];
          $unitpush = $this->my_model->tambahdata('tgs_jab', $addtugas);
          if ($unitpush) {
             $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil disimpan!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
@@ -326,13 +326,13 @@ class Admindua extends CI_Controller
          $data['label'] = 'Edit Tugas';
 
          $whereid = array('a.id' => $id);
-         $this->db->select('a.id,a.no_tugas,a.nama_tugas,a.periode,a.total_wpt,a.id_unit,b.unit');
-         $this->db->join('unit b', 'a.id_unit = b.id');
+         $this->db->select('a.id,a.no_tugas,a.nama_tugas,a.periode,a.total_wpt,a.id_jab,b.jabatan');
+         $this->db->join('jabatan b', 'a.id_jab = b.id');
          $vtugas = $this->my_model->cek_data('tgs_jab a', $whereid)->result();
          $data['vetugas'] = $vtugas;
 
-         $unit = $this->my_model->tampil('unit');
-         $data['unitlist'] = $unit->result();
+         $jab = $this->my_model->tampil('jabatan');
+         $data['jablist'] = $jab->result();
 
          $this->load->view('Admin/templateadmin/header', $data);
          $this->load->view('Admin/templateadmin/sidebar', $data);
@@ -353,12 +353,12 @@ class Admindua extends CI_Controller
 
          $notugas = trim($this->security->xss_clean($this->input->post('notugas')));
          $nmtugas = trim($this->security->xss_clean($this->input->post('nmtugas')));
-         $unit = trim($this->security->xss_clean($this->input->post('unit')));
+         $jab = trim($this->security->xss_clean($this->input->post('jab')));
          $periode = trim($this->security->xss_clean($this->input->post('periode')));
          $wpt = trim($this->security->xss_clean($this->input->post('wpt')));
 
          $whereID = array('id' => $id);
-         $updatgs = ['no_tugas' => $notugas, 'nama_tugas' => $nmtugas, 'id_unit' => $unit, 'periode' => $periode, 'total_wpt' => $wpt];
+         $updatgs = ['no_tugas' => $notugas, 'nama_tugas' => $nmtugas, 'id_jab' => $jab, 'periode' => $periode, 'total_wpt' => $wpt];
 
          $uppeg = $this->my_model->update("tgs_jab", $whereID, $updatgs);
          if ($uppeg) {
@@ -368,6 +368,139 @@ class Admindua extends CI_Controller
          } else {
             $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal diupdate<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
             redirect('Admindua/tugas');
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function beban_kerja()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Data Beban Tugas';
+
+         $this->db->order_by('a.id');
+         $this->db->select('a.id,a.id_pegawai,a.tahun,b.nama_tugas,a.beban_kerja,a.freq,a.skr');
+         $this->db->join('tgs_jab b', 'b.no_tugas=a.no_tugas');
+         $bbkerja = $this->my_model->tampil('beban_kerja a');
+         $data['bbkerjalist'] = $bbkerja->result();
+
+         $pegawailis = $this->my_model->tampil('pegawai');
+         $data['listpeg'] = $pegawailis->result();
+
+         $tugaslis = $this->my_model->tampil('tgs_jab');
+         $data['listtgs'] = $tugaslis->result();
+
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/beban', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function addbeban()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $nip = trim($this->security->xss_clean($this->input->post('nip')));
+         $tahun = trim($this->security->xss_clean($this->input->post('tahun')));
+         $tugas = trim($this->security->xss_clean($this->input->post('tugas')));
+         $bkt = trim($this->security->xss_clean($this->input->post('bkt')));
+         $freq = trim($this->security->xss_clean($this->input->post('freq')));
+         $skr = trim($this->security->xss_clean($this->input->post('skr')));
+
+         $addbb = ['id_pegawai' => $nip, 'tahun' => $tahun, 'no_tugas' => $tugas, 'beban_kerja' => $bkt, 'freq' => $freq, 'skr' => $skr];
+         $bbpush = $this->my_model->tambahdata('beban_kerja', $addbb);
+         if ($bbpush) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil disimpan!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal disimpan<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function hapus_beban($id)
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $where = array('id' => $id);
+         if ($this->my_model->hapus("beban_kerja", $where)) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil dihapus!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+         </div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal dihapus<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect($_SERVER['HTTP_REFERER']);
+         }
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function edit_beban($id)
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Edit Tugas';
+
+         $whereid = array('a.id' => $id);
+         $this->db->select('a.id,a.id_pegawai,a.tahun,c.nama_tugas,a.beban_kerja,a.freq,a.skr,b.nama,a.no_tugas');
+         $this->db->join('tgs_jab c', 'a.no_tugas=c.no_tugas');
+         $this->db->join('pegawai b', 'b.nip=a.id_pegawai');
+         $edbeban = $this->my_model->cek_data('beban_kerja a', $whereid);
+         $data['edbebanlist'] = $edbeban->result();
+
+         $pegawailis = $this->my_model->tampil('pegawai');
+         $data['listpeg'] = $pegawailis->result();
+
+         $tugaslis = $this->my_model->tampil('tgs_jab');
+         $data['listtgs'] = $tugaslis->result();
+
+         $this->load->view('Admin/templateadmin/header', $data);
+         $this->load->view('Admin/templateadmin/sidebar', $data);
+         $this->load->view('Admin/templateadmin/navbar', $data);
+         $this->load->view('Admin/vebeban', $data);
+         $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
+
+   public function updatebeban()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $id = trim($this->security->xss_clean($this->input->post('id')));
+         $nip = trim($this->security->xss_clean($this->input->post('nip')));
+         $tahun = trim($this->security->xss_clean($this->input->post('tahun')));
+         $tugas = trim($this->security->xss_clean($this->input->post('tugas')));
+         $bkt = trim($this->security->xss_clean($this->input->post('bkt')));
+         $freq = trim($this->security->xss_clean($this->input->post('freq')));
+         $skr = trim($this->security->xss_clean($this->input->post('skr')));
+
+         $whereID = array('id' => $id);
+         $updbbkerja = ['id_pegawai' => $nip, 'tahun' => $tahun, 'no_tugas' => $tugas, 'beban_kerja' => $bkt, 'freq' => $freq, 'skr' => $skr];
+
+         $upbb = $this->my_model->update("beban_kerja", $whereID, $updbbkerja);
+         if ($upbb) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Data berhasil diupdate!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+            </div>");
+            redirect('Admindua/beban_kerja');
+         } else {
+            $this->session->set_flashdata("message", "<div class='alert alert-danger alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-bug'></i></span> Data Gagal diupdate<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+            redirect('Admindua/beban_kerja');
          }
       } else {
          $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");

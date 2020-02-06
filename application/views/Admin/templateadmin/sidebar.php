@@ -37,7 +37,7 @@
                     <ul class="child-list">
                         <li><a href="<?= base_url('admindua/pegawai'); ?>"> Pegawai </a></li>
                         <li><a href="<?= base_url('admindua/tugas'); ?>"> Tugas </a></li>
-                        <!-- <li><a href="<?= base_url('admindua/pegawai'); ?>"> Beban Kerja </a></li> -->
+                        <li><a href="<?= base_url('admindua/beban_kerja'); ?>"> Beban Kerja </a></li>
                     </ul>
                 </li>
                 <!-- end kelola simpeg -->

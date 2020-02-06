@@ -23,7 +23,7 @@ error_reporting('0');
                               <th>No.</th>
                               <th>No Tugas</th>
                               <th>Nama Tugas</th>
-                              <th>Unit</th>
+                              <th>Jabatan</th>
                               <th>periode</th>
                               <th>WTP</th>
                               <th>Aksi</th>
@@ -36,7 +36,7 @@ error_reporting('0');
                                  <td class="text-center"><?= $no; ?></td>
                                  <td><?= $tugas->no_tugas; ?></td>
                                  <td><?= $tugas->nama_tugas; ?></td>
-                                 <td><?= $tugas->unit; ?></td>
+                                 <td><?= $tugas->jabatan; ?></td>
                                  <td><?= $tugas->periode; ?></td>
                                  <td><?= $tugas->total_wpt; ?></td>
                                  <td align="center">
@@ -105,12 +105,12 @@ error_reporting('0');
                   <input type="text" class="form-control" id="nmtugas" name="nmtugas" placeholder="Masukan Tugas">
                </div>
                <div class="form-group row">
-                  <label class="col-sm-2 control-label">Unit</label>
+                  <label class="col-sm-2 control-label">Jabatan</label>
                   <div class="col-sm-10">
-                     <select class="form-control" name="unit">
+                     <select class="form-control" name="jab">
                         <option selected>--Pilih Golongan--</option>
-                        <?php foreach ($unitlist as $unit) : ?>
-                           <option value="<?= $unit->id ?>"><?= $unit->unit; ?></option>
+                        <?php foreach ($jablist as $jab) : ?>
+                           <option value="<?= $jab->id ?>"><?= $jab->jabatan; ?></option>
                         <?php endforeach; ?>
                      </select>
                   </div>

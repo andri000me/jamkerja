@@ -20,12 +20,12 @@
                            <input type="text" class="form-control" id="nmtugas" name="nmtugas" value="<?= $tgs->nama_tugas; ?>">
                         </div>
                         <div class="form-group row">
-                           <label class="col-sm-2 control-label" for="ketunit">Unit</label>
+                           <label class="col-sm-2 control-label" for="ketunit">Jabatan</label>
                            <div class="col-sm-6">
-                              <select class="form-control" name="unit">
-                                 <option selected value="<?= $tgs->id_unit; ?>"><?= $tgs->unit; ?> (selected)</option>
-                                 <?php foreach ($unitlist as $unit) : ?>
-                                    <option value="<?= $unit->id ?>"><?= $unit->unit; ?></option>
+                              <select class="form-control" name="jab">
+                                 <option selected value="<?= $tgs->id_jab; ?>"><?= $tgs->jabatan; ?> (selected)</option>
+                                 <?php foreach ($jablist as $jab) : ?>
+                                    <option value="<?= $jab->id ?>"><?= $jab->jabatan; ?></option>
                                  <?php endforeach; ?>
                               </select>
                            </div>

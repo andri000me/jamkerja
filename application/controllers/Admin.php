@@ -113,9 +113,6 @@ class Admin extends CI_Controller
             $data['brand'] = 'SIMPEG - PIJAY';
             $data['label'] = 'Edit Unit';
 
-            // $data['admin'] = $this->session->userdata('nama');
-            // $data['level'] = $this->session->userdata('level');
-
             $where = array('id' => $id);
             $editunit = $this->my_model->cek_data("unit", $where);
             $data['datunit'] = $editunit->result();
