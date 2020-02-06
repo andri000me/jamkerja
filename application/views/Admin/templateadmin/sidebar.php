@@ -42,10 +42,10 @@
                 </li>
                 <!-- end kelola simpeg -->
                 <li>
-                    <h3 class="navigation-title">Kelola Profil</h3>
+                    <h3 class="navigation-title">Analisis</h3>
                 </li>
-                <li class="active">
-                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Analisis</span></a>
+                <li class="">
+                    <a href="<?= base_url('Admindua/analisasdm') ?>"><i class="mdi mdi-account-circle"></i> <span>Cek kebutuhan SDM</span></a>
                 </li>
                 <!-- <li class="">
                     <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-paperclip"></i> <span>Lembar Kerja</span></a>
@@ -55,10 +55,10 @@
                 </li> -->
             <?php } else { ?>
                 <li>
-                    <h3 class="navigation-title">Kelola Profil</h3>
+                    <h3 class="navigation-title">Analisis</h3>
                 </li>
                 <li class="active">
-                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Analisis</span></a>
+                    <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-account-circle"></i> <span>Cek kebutuhan SDM</span></a>
                 </li>
                 <!-- <li class="">
                     <a href="<?= base_url('Admin') ?>"><i class="mdi mdi-paperclip"></i> <span>Lembar Kerja</span></a>

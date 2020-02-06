@@ -507,4 +507,42 @@ class Admindua extends CI_Controller
          redirect('admin');
       }
    }
+
+   public function analisasdm()
+   {
+      if ($this->session->userdata('level') == 'Admin') {
+         $data['title'] = 'SIMPEG - PIJAY';
+         $data['brand'] = 'SIMPEG - PIJAY';
+         $data['label'] = 'Analisa SDM';
+
+         $getjab = $this->my_model->tampil('jabatan')->result_array();
+         // $getjab = $this->my_model->tampil('jabatan');
+         // $data['jablis'] = $getjab->result();
+
+         foreach ($getjab as $gj) {
+            $where = ['id_jab' => $gj['id']];
+            $gettgs = $this->my_model->cek_data('tgs_jab', $where)->result_array();
+            foreach ($gettgs as $gt) {
+               // echo $gt['no_tugas'] . ' - ' . $gt['nama_tugas'];
+               // echo '<br>';
+               $wheregs = ['no_tugas' => $gt['no_tugas']];
+               $getbeban = $this->my_model->cek_data('beban_kerja', $wheregs)->result_array();
+               // var_dump($getbeban);
+               foreach ($getbeban as $gb) {
+
+                  // var_dump($gb);
+               }
+            }
+         }
+
+         // $this->load->view('Admin/templateadmin/header', $data);
+         // $this->load->view('Admin/templateadmin/sidebar', $data);
+         // $this->load->view('Admin/templateadmin/navbar', $data);
+         // $this->load->view('Admin/analisasdm', $data);
+         // $this->load->view('Admin/templateadmin/footer', $data);
+      } else {
+         $this->session->set_flashdata("msg", "<div class='alert alert-warning alert-wth-icon alert-dismissible fade show' role='alert'><span class='alert-icon-wrap'><i class='zmdi zmdi-check-circle'></i></span>Anda tidak boleh Mengakses Fitur Admin!.<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>");
+         redirect('admin');
+      }
+   }
 }

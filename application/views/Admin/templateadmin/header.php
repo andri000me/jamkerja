@@ -28,6 +28,8 @@
 
     <!--animation-->
     <link href="<?= base_url('vendors/syntra/Admin/') ?>assets/css/animate.css" rel="stylesheet">
+
+
 </head>
 
 <body class="sticky-header">
